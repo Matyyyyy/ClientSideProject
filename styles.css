@@ -8,6 +8,8 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: #f9f9f9;
     color: #333;
+    line-height: 1.6;
+
 }
 
 .container {
@@ -91,6 +93,7 @@ nav ul li a {
 .about h2 {
     font-size: 28px;
     margin-bottom: 20px;
+    margin-left: -30px;
 }
 
 .about p {
@@ -177,3 +180,71 @@ nav ul li a {
     font-weight: bold;
     border-radius: 5px;
 }
+
+/* Footer */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .footer {
+    background: #006;
+    padding: 30px;
+    margin-top: 60px;
+    text-align: left;
+    max-width: 100% !important;
+    position: absolute;
+    left: 0;
+    width: 100%;
+
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-left {
+    text-align: left;
+  }
+  
+  .footer-left h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+  }
+  
+  .footer-left p {
+    margin: 5px 0;
+  }
+  
+  .footer-right {
+    text-align: right;
+  }
+  
+  .map-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #fff;
+    border: 1px solid #000;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .map-button:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  
