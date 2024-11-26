@@ -450,3 +450,34 @@ nav ul li a:hover::after {
   75% { transform: translateX(-10px); }
   100% { transform: translateX(0); }
 }
+
+/* about us page */
+.about_us p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: justify;
+
+}
+
+.about_us {
+    display: flex; /* Použijeme Flexbox */
+    align-items: flex-start; /* Zarovnáme obsah nahoře */
+    gap: 20px; /* Mezera mezi textem a obrázkem */
+  }
+  
+  .about_us p {
+    flex: 2; /* Text zabere větší část prostoru */
+    line-height: 1.6; /* Příjemnější čitelnost textu */
+    max-width: 600px;
+  }
+  
+  .about_us .image-box {
+    flex: 1; /* Obrázek zabere menší část prostoru */
+    max-width: 400px; /* Maximální šířka obrázku */
+    height: auto; /* Automatická výška podle šířky */
+    border: 1px solid #ccc; /* Okraj kolem obrázku */
+    border-radius: 5px; /* Zaoblené rohy obrázku */
+    margin-left: 100px;
+  }
+  
