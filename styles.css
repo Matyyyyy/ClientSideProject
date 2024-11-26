@@ -480,4 +480,32 @@ nav ul li a:hover::after {
     border-radius: 5px; /* Zaoblené rohy obrázku */
     margin-left: 100px;
   }
-  
+  /* Responsive header */
+@media (max-width: 768px) {
+  header {
+      flex-direction: column;
+  }
+
+  nav ul {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+  }
+
+  .basket {
+      margin-top: 10px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .product-highlights {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .product-image img {
+      width: 80%;
+
+  }
+}
