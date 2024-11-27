@@ -685,7 +685,7 @@ button:hover {
 
 .star-rating span {
   font-size: 30px;
-  color: #black; /* Yellow stars */
+  color: black; /* Yellow stars */
 }
 
 .star-rating span:nth-child(n+4) {
