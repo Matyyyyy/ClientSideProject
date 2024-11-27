@@ -481,7 +481,7 @@ nav ul li a:hover::after {
     margin-left: 100px;
   }
   /* Responsive header */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
   header {
       flex-direction: column;
   }
@@ -508,4 +508,99 @@ nav ul li a:hover::after {
       width: 80%;
 
   }
+}*/
+@media (max-width: 768px) {
+  header {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  nav ul {
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .hero h1 {
+      font-size: 1.5rem;
+  }
+  .about h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .product-highlights {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .footer-container {
+      flex-direction: column;
+      text-align: center;
+  }
+  
+  .header_text {
+    text-align: center;
+    font-size: 2.2rem; 
+}
+
+.about_us {
+    flex-direction: column;
+    align-items: center;
+}
+
+.about_us p {
+    font-size: 1rem;
+    text-align: center; 
+    flex: 1 1 100%;
+}
+
+.image-box {
+    max-width: 80%; 
+    margin: 20px auto; 
+    display: block; /
+}
+
+.products {
+  flex-direction: column;
+  justify-content: center;
+}
+
+}
+
+@media (max-width: 480px) {
+  .logo {
+      font-size: 20px;
+  }
+
+  nav ul {
+      align-items: center;
+  }
+
+  .hero .cta-button {
+      font-size: 14px;
+      padding: 8px 16px;
+  }
+
+  .product-highlights .product-image img {
+      max-width: 80%;
+  }
+
+  .header_text {
+    font-size: 1.5rem; 
+}
+
+.about_us {
+    padding: 10px;
+}
+
+.about_us p {
+    font-size: 0.9rem; 
+}
+
+.image-box {
+    max-width: 90%;
+}
+
+.product-card {
+  width: 100%;
+}
 }
