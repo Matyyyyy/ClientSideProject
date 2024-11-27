@@ -564,6 +564,24 @@ nav ul li a:hover::after {
   justify-content: center;
 }
 
+.contact {
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact address {
+  max-width: 100%;
+  text-align: center;
+}
+
+.contact iframe {
+  width: 100%;
+  height: 300px;
+}
+
+.contact_form form {
+  width: 90%;
+}
 }
 
 @media (max-width: 480px) {
@@ -603,6 +621,25 @@ nav ul li a:hover::after {
 .product-card {
   width: 100%;
 }
+
+.contact {
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact address {
+  max-width: 100%;
+  text-align: center;
+}
+
+.contact iframe {
+  width: 100%;
+  height: 300px;
+}
+
+.contact_form form {
+  width: 90%;
+}
 }
 
 /* Contact page */
@@ -626,7 +663,7 @@ address {
 
 /* Form section */
 .contact_form {
-  margin-top: -40px;
+  margin-top: 40px;
   max-width: 400px;
   width: 100%;
   margin-left: 20px;
