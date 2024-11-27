@@ -626,7 +626,7 @@ address {
 
 /* Form section */
 .contact_form {
-  margin-top: -50px;
+  margin-top: -40px;
   max-width: 400px;
   width: 100%;
   margin-left: 20px;
@@ -673,4 +673,21 @@ button {
 
 button:hover {
   background-color: #444;
+}
+
+/* Star rating styling */
+.star-rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  margin-top: -10px;
+}
+
+.star-rating span {
+  font-size: 30px;
+  color: #black; /* Yellow stars */
+}
+
+.star-rating span:nth-child(n+4) {
+  color: #ccc; /* Grey stars */
 }
