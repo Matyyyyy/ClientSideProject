@@ -474,13 +474,13 @@ nav ul li a {
         color: #000;
     }
 
-    nav ul li a::after {
+    nav ul li a:not(.active)::after {
         content: '';
         position: absolute;
         left: 0;
         bottom: -5px;
         width: 0;
-        height: 3px;
+        height: .25rem;
         background-color: #888;
         transition: width 0.3s ease;
     }
@@ -807,3 +807,8 @@ button {
         .star-rating span:nth-child(n+4) {
             color: #ccc; /* Grey stars */
         }
+
+.nav-masthead .active {
+    border-bottom: .25rem solid transparent;
+    border-bottom-color: #212529;
+}
