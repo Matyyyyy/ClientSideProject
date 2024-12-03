@@ -746,3 +746,62 @@ button {
     border-bottom: .25rem solid transparent;
     border-bottom-color: #212529;
 }
+
+.news-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.news-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0 1rem;
+}
+
+.news-item {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+    .news-item h2 {
+        margin-top: 0;
+    }
+
+    .news-item p {
+        margin: 0.5rem 0 0;
+    }
+
+    .news-item a {
+        color: #007bff;
+        text-decoration: underline;
+    }
+
+.about-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.about-story,
+.about-values,
+.about-vision {
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+    .about-values ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+    }
+
+    .about-values li {
+        margin-bottom: 1rem;
+    }
+
+
+p {
+    line-height: 1.6;
+    text-align: justify;
+}
