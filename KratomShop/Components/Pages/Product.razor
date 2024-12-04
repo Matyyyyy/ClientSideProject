@@ -1,0 +1,61 @@
+﻿@page "/product/{Id:int}"
+<PageTitle>Produkt | Kratom E-shop</PageTitle>
+
+<!-- Název produktu -->
+<h1 class="text-start mb-4">Premium Kratom Powder 100g</h1>
+
+<!-- Produktová sekce -->
+<div class="row align-items-center mb-5">
+    <!-- Obrázek produktu -->
+    <div class="col-md-6 text-center">
+        <img src="/images/green-bali.png" alt="Kratom" class="img-fluid rounded">
+    </div>
+    <!-- Popis, cena a tlačítko -->
+    <div class="col-md-6">
+        <h3>Popis produktu</h3>
+        <p>
+            Premium Kratom Powder 100g - ručně sbíraný z nejlepších listů a precizně zpracovaný pro optimální kvalitu.
+            Tento kratom je ideální pro ty, kteří hledají přírodní cestu k relaxaci a zlepšení soustředění.
+        </p>
+        <h4 class="text-success">Cena: 799 Kč</h4>
+        <button class="btn btn-primary btn-lg mt-3">Přidat do košíku</button>
+    </div>
+</div>
+
+<!-- Recenze -->
+<div class="mb-5">
+    <h2>Recenze</h2>
+    <div class="list-group">
+        <div class="list-group-item">
+            <h5 class="mb-1">Jan Novák</h5>
+            <p class="mb-1">Kratom byl výborný, určitě objednám znovu!</p>
+            <div class="stars">★★★★★</div>
+        </div>
+        <div class="list-group-item">
+            <h5 class="mb-1">Petr Svoboda</h5>
+            <p class="mb-1">Velmi kvalitní kratom, jeden z nejlepších, co jsem vyzkoušel.</p>
+            <div class="stars">★★★★★</div>
+        </div>
+        <div class="list-group-item">
+            <h5 class="mb-1">Anna Krásná</h5>
+            <p class="mb-1">Rychlé doručení a kvalitní produkt. Doporučuji.</p>
+            <div class="stars">★★★★☆</div>
+        </div>
+    </div>
+</div>
+
+<!-- Další popis -->
+<div>
+    <h2>Další informace</h2>
+    <p>
+        Kratom je tradiční přírodní produkt používaný po staletí. Naše produkty jsou testovány na kvalitu a čistotu.
+        Vždy doporučujeme dodržovat odpovědné dávkování a konzultovat užívání s odborníkem.
+    </p>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}
