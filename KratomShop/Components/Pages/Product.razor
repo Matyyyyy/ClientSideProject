@@ -1,35 +1,39 @@
 ﻿@page "/product/{Id:int}"
 <PageTitle>Produkt | Kratom E-shop</PageTitle>
 
-<!-- Název produktu -->
 <h1 class="text-start mb-4">Premium Kratom Powder 100g</h1>
 
-<!-- Produktová sekce -->
 <div class="row align-items-center mb-5">
-    <!-- Obrázek produktu -->
     <div class="col-md-6 text-center">
-        <img src="/images/green-bali.png" alt="Kratom" class="img-fluid rounded">
+        <img src="/images/green-bali.png" alt="Kratom fotka" class="img-fluid rounded" style="max-width:300px;">
     </div>
-    <!-- Popis, cena a tlačítko -->
     <div class="col-md-6">
         <h3>Popis produktu</h3>
         <p>
             Premium Kratom Powder 100g - ručně sbíraný z nejlepších listů a precizně zpracovaný pro optimální kvalitu.
             Tento kratom je ideální pro ty, kteří hledají přírodní cestu k relaxaci a zlepšení soustředění.
         </p>
-        <h4 class="text-success">Cena: 799 Kč</h4>
-        <button class="btn btn-primary btn-lg mt-3">Přidat do košíku</button>
+        <div class="row mt-3">
+            <div class="col">
+                <h4 class="text-success">Cena: 799 Kč</h4>
+            </div>
+            <div class="col text-end">
+                <button class="btn btn-dark">Přidat do košíku</button>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Recenze -->
 <div class="mb-5">
     <h2>Recenze</h2>
+    <p>
+        Celkové hodnocení 4,3 (★★★★☆)
+    </p>
     <div class="list-group">
         <div class="list-group-item">
             <h5 class="mb-1">Jan Novák</h5>
             <p class="mb-1">Kratom byl výborný, určitě objednám znovu!</p>
-            <div class="stars">★★★★★</div>
+            <div class="stars">★★★★☆</div>
         </div>
         <div class="list-group-item">
             <h5 class="mb-1">Petr Svoboda</h5>
@@ -44,7 +48,6 @@
     </div>
 </div>
 
-<!-- Další popis -->
 <div>
     <h2>Další informace</h2>
     <p>
