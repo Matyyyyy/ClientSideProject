@@ -215,7 +215,8 @@ nav ul {
 
 .weight {
     font-size: 14px;
-    color: #777;
+    color: #3E3333;
+    font-weight: bold;
 }
 
 .price {
@@ -754,7 +755,7 @@ button {
     }
 
     .news-item a {
-        color: #007bff;
+        color: #2970bd;
         text-decoration: underline;
     }
 
@@ -782,4 +783,38 @@ button {
 p {
     line-height: 1.6;
     text-align: justify;
+}
+
+
+.about_us {
+    margin: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.about-text {
+    flex: 2;
+    min-width: 300px;
+}
+
+.image-box {
+    flex: 1;
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+
+figure {
+    margin: 0;
+    text-align: center;
+}
+
+figcaption {
+    margin-top: 8px;
+    font-style: italic;
+    color: #666;
 }
