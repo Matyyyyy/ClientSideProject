@@ -449,59 +449,8 @@ nav ul li a {
 .about_us p {
     font-size: 16px;
     line-height: 1.6;
-    margin-bottom: 20px;
-    text-align: justify;
 }
 
-.about_us {
-    display: flex; /* Použijeme Flexbox */
-    align-items: flex-start; /* Zarovnáme obsah nahoře */
-    gap: 20px; /* Mezera mezi textem a obrázkem */
-}
-
-    .about_us p {
-        flex: 2; /* Text zabere větší část prostoru */
-        line-height: 1.6; /* Příjemnější čitelnost textu */
-        max-width: 600px;
-    }
-
-    .about_us .image-box {
-        flex: 1; /* Obrázek zabere menší část prostoru */
-        max-width: 400px; /* Maximální šířka obrázku */
-        height: auto; /* Automatická výška podle šířky */
-        border: 1px solid #ccc; /* Okraj kolem obrázku */
-        border-radius: 5px; /* Zaoblené rohy obrázku */
-        margin-left: 100px;
-    }
-/* Responsive header */
-/*@media (max-width: 768px) {
-  header {
-      flex-direction: column;
-  }
-
-  nav ul {
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-  }
-
-  .basket {
-      margin-top: 10px;
-  }
-}
-
-
-@media (max-width: 768px) {
-  .product-highlights {
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .product-image img {
-      width: 80%;
-
-  }
-}*/
 @media (max-width: 768px) {
     header {
         flex-direction: column;
@@ -536,17 +485,6 @@ nav ul li a {
         text-align: center;
         font-size: 2.2rem;
     }
-
-    .about_us {
-        flex-direction: column;
-        align-items: center;
-    }
-
-        .about_us p {
-            font-size: 1rem;
-            text-align: center;
-            flex: 1 1 100%;
-        }
 
     .image-box {
         max-width: 80%;
@@ -593,10 +531,6 @@ nav ul li a {
         .about_us p {
             font-size: 0.9rem;
         }
-
-    .image-box {
-        max-width: 90%;
-    }
 
     .product-card {
         width: 100%;
@@ -765,16 +699,6 @@ button {
 p {
     line-height: 1.6;
     text-align: justify;
-}
-
-
-.about_us {
-    margin: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
-    align-items: flex-start;
 }
 
 .about-text {
