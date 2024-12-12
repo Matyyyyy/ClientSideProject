@@ -1,3 +1,11 @@
+# Jak nastavit?
+1. Stáhni si .NET 9 SDK na (https://dotnet.microsoft.com/en-us/download)
+2. Otevři project ve VS Code
+3. Přejdi na záložku Debug (Ctrl+Shift+D)
+4. Klikni na ,,Show all automatic debug configurations"
+5. Klikni na C# a následně třeba https (povol certifikát)
+5. Appka by se pak měla rozběhnout
+
 # Client side Projekt - Bodované činnosti k zápočtu
 
 **Individuální `(50 bodů)`**

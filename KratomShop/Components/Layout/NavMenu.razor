@@ -1,0 +1,76 @@
+﻿@implements IDisposable
+
+@inject NavigationManager NavigationManager
+<nav class="nav-masthead d-flex justify-content-center justify-content-md-end mt-2 mt-md-0">
+    <ul class="list-unstyled mb-0 d-flex flex-column flex-md-row gap-3">
+        <li>
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                Home
+            </NavLink>
+        </li>
+        <li>
+            <NavLink class="nav-link" href="about-us" Match="NavLinkMatch.All">
+                O nás
+            </NavLink>
+        </li>
+        <li>
+            <NavLink class="nav-link" href="products" Match="NavLinkMatch.All">
+                Produkty
+            </NavLink>
+        </li>
+        <li>
+            <NavLink class="nav-link" id="kontaktId" href="contact" Match="NavLinkMatch.All">
+                Kontakt
+            </NavLink>
+        </li>
+        <li>
+            <NavLink class="nav-link" href="/Account/Login" Match="NavLinkMatch.All">
+                Můj účet
+            </NavLink>
+        </li>
+        <a class="btn btn-dark" href="/basket">
+            Košík <span class="badge text-bg-light btn-sm">3</span>
+        </a>
+    </ul>
+
+    <AuthorizeView>
+        <Authorized>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Account/Manage">
+                    <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <form action="Account/Logout" method="post">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                    <button type="submit" class="nav-link">
+                        <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+                    </button>
+                </form>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+</nav>
+
+@code {
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
+
