@@ -10,22 +10,23 @@
 </script>
 
 <div class="container">
-    <header>
-        <div class="container-fluid py-2">
-            <div class="row align-items-center">
-                <div class="col-12 col-md-3 text-center text-md-start">
-                    <div class="logo">
-                        <a href="/" class="text-decoration-none text-dark fs-4">Kratom E-shop</a>
-                    </div>
+    <header >
+        <div class="container-fluid py-2" >
+            <nav class="navbar navbar-expand-lg d-flex align-items-center nav-masthead">
+                <a href="/" class="navbar-brand text-decoration-none text-dark fs-4 mx-auto mx-md-0" >Kratom E-shop</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <NavMenu/>
                 </div>
-                <div class="col-12 col-md-9">
-                    <NavMenu />
-                </div>
-            </div>
+            </nav>
         </div>
     </header>
-
 </div>
+
 <div class="container">
     <main id="main">
         @Body
