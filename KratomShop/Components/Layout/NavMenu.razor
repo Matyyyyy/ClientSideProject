@@ -1,8 +1,7 @@
 ﻿@implements IDisposable
 
 @inject NavigationManager NavigationManager
-<nav class="nav-masthead d-flex justify-content-center justify-content-md-end mt-2 mt-md-0">
-    <ul class="list-unstyled mb-0 d-flex flex-column flex-md-row gap-3">
+    <ul class="list-unstyled mb-0 d-flex flex-column flex-md-row gap-3 navbar-nav text-center">
         <li>
             <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
                 Home
@@ -28,9 +27,11 @@
                 Můj účet
             </NavLink>
         </li>
-        <a class="btn btn-dark" href="/basket">
-            Košík <span class="badge text-bg-light btn-sm">3</span>
-        </a>
+        <li>
+            <a class="btn btn-dark" href="/basket">
+                Košík <span class="badge text-bg-light btn-sm">3</span>
+            </a>
+        </li>
     </ul>
 
     <AuthorizeView>
@@ -51,7 +52,6 @@
             </div>
         </Authorized>
     </AuthorizeView>
-</nav>
 
 @code {
     private string? currentUrl;

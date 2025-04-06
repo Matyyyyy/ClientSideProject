@@ -568,7 +568,7 @@ nav ul li a {
 }
 
 address {
-    font-style: bold;
+    font-weight: bold;
     font-size: 25px;
 }
 
@@ -723,4 +723,14 @@ figcaption {
     margin-top: 8px;
     font-style: italic;
     color: #666;
+}
+
+@media (min-width: 768px) {
+    .navbar-collapse {
+        margin-left: 40px; /* Adds space between logo and menu on larger screens */
+    }
+
+    .navbar-nav {
+        margin-left: auto; /* Moves the navigation menu items to the right */
+    }
 }
