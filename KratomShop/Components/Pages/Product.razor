@@ -1,64 +1,108 @@
-﻿@page "/product/{Id:int}"
+﻿@page "/product/{Id}"
 <PageTitle>Produkt | Kratom E-shop</PageTitle>
 
-<h1 class="mb-4">Premium Kratom Powder 100g</h1>
-
-<div class="row align-items-center mb-5">
-    <div class="col-md-6 text-center">
-        <img src="/images/green-bali.png" alt="Kratom fotka" class="img-fluid rounded" style="max-width:300px;">
+@if(_item == null)
+{
+    <div class="text-center">
+        <h2>Načítání produktu...</h2>
     </div>
-    <div class="col-md-6">
-        <h3>Popis produktu</h3>
-        <p>
-            Premium Kratom Powder 100g - ručně sbíraný z nejlepších listů a precizně zpracovaný pro optimální kvalitu.
-            Tento kratom je ideální pro ty, kteří hledají přírodní cestu k relaxaci a zlepšení soustředění.
-        </p>
-        <div class="row mt-3">
-            <div class="col">
-                <h4 class="text-success">Cena: 799 Kč</h4>
+}
+else
+{
+    <h1 class="mb-4">@_item.Name</h1>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6 text-center">
+            <img src="@_item.ImageUrl" alt="Kratom fotka" class="img-fluid rounded" style="max-width:300px;">
+        </div>
+        <div class="col-md-6">
+            <h3>Popis produktu</h3>
+            <p>
+                @_item.Description
+            </p>
+            <div class="row mt-3">
+                <div class="col">
+                    <h4 class="text-success">Cena: @_item.Price Kč</h4>
+                </div>
+                <div class="col text-end">
+                    <button class="btn btn-dark">Přidat do košíku</button>
+                </div>
             </div>
-            <div class="col text-end">
-                <button class="btn btn-dark">Přidat do košíku</button>
-            </div>
         </div>
     </div>
-</div>
 
-<div class="mb-5">
-    <h2>Recenze</h2>
-    <p>
-        Celkové hodnocení 4,3 (★★★★☆)
-    </p>
-    <div class="list-group">
-        <div class="list-group-item">
-            <h5 class="mb-1">Jan Novák</h5>
-            <p class="mb-1">Kratom byl výborný, určitě objednám znovu!</p>
-            <div class="stars">★★★★☆</div>
-        </div>
-        <div class="list-group-item">
-            <h5 class="mb-1">Petr Svoboda</h5>
-            <p class="mb-1">Velmi kvalitní kratom, jeden z nejlepších, co jsem vyzkoušel.</p>
-            <div class="stars">★★★★★</div>
-        </div>
-        <div class="list-group-item">
-            <h5 class="mb-1">Anna Krásná</h5>
-            <p class="mb-1">Rychlé doručení a kvalitní produkt. Doporučuji.</p>
-            <div class="stars">★★★★☆</div>
+    <div class="mb-5">
+        <h2>Recenze</h2>
+        @if (_item.Reviews.Count != 0)
+        {
+            var averageRating = _item.Reviews.Average(r => r.Rating);
+            var starCount = Math.Round(averageRating, 0, MidpointRounding.AwayFromZero);
+            <p>
+                Celkové hodnocení @starCount (
+                @for (int i = 0; i < starCount; i++)
+                {
+                    <span>★</span>
+                }
+                @for (int i = (int)starCount; i < 5; i++)
+                {
+                    <span>☆</span>
+                })
+            </p>
+
+        }
+        
+        <div class="list-group">
+
+            @foreach (var review in _item.Reviews)
+            {
+                <div class="list-group-item">
+                    <h5 class="mb-1">@review.User.FullName</h5>
+                    <p class="mb-1">@review.Comment</p>
+                    <div class="stars">
+
+                        @for (int i = 0; i < review.Rating; i++)
+                        {
+                            <span>★</span>
+                        }
+                        @for (int i = review.Rating; i < 5; i++)
+                        {
+                            <span>☆</span>
+                        }
+
+                    </div>
+                </div>
+            }
+            @if (_item.Reviews.Count == 0)
+            {
+                <p>Nebyly nalezeny žádné recenze</p>
+            }
         </div>
     </div>
-</div>
+}
 
-<div>
-    <h2>Další informace</h2>
-    <p>
-        Kratom je tradiční přírodní produkt používaný po staletí. Naše produkty jsou testovány na kvalitu a čistotu.
-        Vždy doporučujeme dodržovat odpovědné dávkování a konzultovat užívání s odborníkem.
-    </p>
-</div>
 
 
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public string Id { get; set; }
+
+    [Inject]
+    private ShopCatalogService _shopCatalogService { get; set; }
+
+    private Item? _item;
+    private Guid productId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Guid.TryParse(Id, out productId))
+        {
+            _item = await _shopCatalogService.GetItemByIdAsync(productId);
+        }
+        else
+        {
+            // Ošetření situace, kdy se Guid nepodaří načíst
+        }
+    }
+
 }

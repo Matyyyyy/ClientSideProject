@@ -1,52 +1,42 @@
 ﻿@page "/products"
+@using KratomShop.Data
+@using KratomShop.Models.Database
 <PageTitle>Produkty | Kratom E-shop</PageTitle>
 
 <h1>Produkty</h1>
 <hr/>
 <div class="row">
-    <div class="col">
+@foreach (var item in Items)
+{
+    <div class="col-12 col-md-4">
         <div class="product-card mb-4">
-            <img src="/images/green-bali.png" alt="Kratom fotka" class="img-fluid rounded" style="max-width:200px;" />
-            <h2>Premium Kratom Powder 100g</h2>
+            <img src="@item.ImageUrl" alt="Kratom fotka" class="img-fluid rounded" style="max-width:200px;" />
+            <h2>@item.Name</h2>
             <div class="mt-2 d-flex justify-content-between align-items-center">
                 <p class="rating m-0">4,3 (★★★★☆)</p>
-                <p class="price text-end m-0">790 Kč</p>
+                <p class="price text-end m-0">@item.Price Kč</p>
             </div>
-            <p class="description mt-2">Tento kratom je ideální pro ty, kteří hledají přírodní cestu k relaxaci a zlepšení soustředění</p>
-            <a class="btn btn-dark btn-sm" href="/product/1">Details</a>
-            <a class="btn btn-dark btn-sm" href="/product/1">Add to cart</a>
+            <p class="description mt-2">@item.Description</p>
+            <a class="btn btn-dark btn-sm" href="/product/@item.Id">Details</a>
+            <a class="btn btn-dark btn-sm" href="/product/@item.Id" disabled>Add to cart</a>
         </div>
     </div>
+}
     
-    <div class="col">
-        <div class="product-card mb-4">
-            <img src="/images/green-bali.png" alt="Kratom fotka" class="img-fluid rounded" style="max-width:200px;" />
-            <h2>Premium Kratom Powder 100g</h2>
-            <div class="mt-2 d-flex justify-content-between align-items-center">
-                <p class="rating m-0">4,3 (★★★★☆)</p>
-                <p class="price text-end m-0">790 Kč</p>
-            </div>
-            <p class="description mt-2">Tento kratom je ideální pro ty, kteří hledají přírodní cestu k relaxaci a zlepšení soustředění</p>
-            <a class="btn btn-dark btn-sm" href="/productB/1">Details</a>
-            <a class="btn btn-dark btn-sm" href="/productB/1">Add to cart</a>
-        </div>
-    </div>
-
-    <div class="col">
-        <div class="product-card mb-4">
-            <img src="/images/green-bali.png" alt="Kratom fotka" class="img-fluid rounded" style="max-width:200px;" />
-            <h2>Premium Kratom Powder 100g</h2>
-            <div class="mt-2 d-flex justify-content-between align-items-center">
-                <p class="rating m-0">4,3 (★★★★☆)</p>
-                <p class="price text-end m-0">790 Kč</p>
-            </div>
-            <p class="description mt-2">Tento kratom je ideální pro ty, kteří hledají přírodní cestu k relaxaci a zlepšení soustředění</p>
-            <a class="btn btn-dark btn-sm" href="/product/1">Details</a>
-            <a class="btn btn-dark btn-sm" href="/product/1">Add to cart</a>
-        </div>
-    </div>
 </div>
 
+
+
 @code {
+    //ApplicationDbContext
+    [Inject] private ShopCatalogService _shopCatalogService { get; set; }
+
+
+    public IEnumerable<Item> Items { get; set; } = new List<Item>();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Items = await _shopCatalogService.GetAllItemsAsync();
+    }
 
 }

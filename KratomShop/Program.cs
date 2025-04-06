@@ -1,6 +1,7 @@
 using KratomShop.Components;
 using KratomShop.Components.Account;
 using KratomShop.Data;
+using KratomShop.Servicies;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -40,6 +41,8 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 });
+
+builder.Services.AddScoped<ShopCatalogService>();
 
 var app = builder.Build();
 
