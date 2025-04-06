@@ -1,0 +1,35 @@
+﻿@page "/admin/catalog"
+@rendermode InteractiveServer
+<h3>Catalog</h3>
+
+<AddItemModalComponent />
+
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced"
+AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@_items" ColumnWidth="300px">
+    <Columns>
+        <RadzenDataGridColumn Property="@nameof(Item.Name)" Filterable="false" Title="Name"/>
+        <RadzenDataGridColumn Property="@nameof(Item.Price)" Title="Price" Width="160px" />
+        <RadzenDataGridColumn Property="@nameof(Item.Stock)" Title="Stock" Width="300px" />
+        <RadzenDataGridColumn Property="@nameof(Item.Description)" Title="Description" Width="300px" />
+        <RadzenDataGridColumn Property="@nameof(Item.IsActive)" Title="Is Active" Width="300px" />
+        <RadzenDataGridColumn Title="">
+
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    [Inject] ShopCatalogService _catalogService { get; set; } = null!;
+
+    private IQueryable<Item> _items = null!;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _items = (await _catalogService.GetAllItemsAsync()).AsQueryable();
+    }
+
+}
