@@ -4,6 +4,7 @@ using KratomShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KratomShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250406133719_Add_Item_with_Review")]
+    partial class Add_Item_with_Review
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -93,44 +96,6 @@ namespace KratomShop.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "f9c0980f-0fac-44b1-a59e-d55a64d9ad01",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "c83c7a5b-384f-4931-9519-9cb38c9d5587",
-                            Email = "test@example.com",
-                            EmailConfirmed = true,
-                            FirstName = "Jan",
-                            LastName = "Novák",
-                            LockoutEnabled = true,
-                            NormalizedEmail = "TEST@EXAMPLE.COM",
-                            NormalizedUserName = "TEST@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELoBI1bJ+o6zQGobyYB41a8Ik1OMUq2ssHB/pVWg2ywvMyvdRoqrBmhGVQpG8RLtkg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "a7985672-2bb6-4d79-87e9-50b50b1547d3",
-                            TwoFactorEnabled = false,
-                            UserName = "test@example.com"
-                        },
-                        new
-                        {
-                            Id = "f9c0980f-0fac-44b1-a59e-d55a64d9ad04",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "64bcc02f-f78b-4e96-bc91-23eefd7d60ad",
-                            Email = "user2@example.com",
-                            EmailConfirmed = true,
-                            FirstName = "Petr",
-                            LastName = "Novotný",
-                            LockoutEnabled = true,
-                            NormalizedEmail = "USER2@EXAMPLE.COM",
-                            NormalizedUserName = "USER2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELoBI1bJ+o6zQGobyYB41a8Ik1OMUq2ssHB/pVWg2ywvMyvdRoqrBmhGVQpG8RLtkg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "5b9391c6-5c06-47f8-8ca6-cb12b6f45c2e",
-                            TwoFactorEnabled = false,
-                            UserName = "user2@example.com"
-                        });
                 });
 
             modelBuilder.Entity("KratomShop.Models.Database.Item", b =>
@@ -166,30 +131,6 @@ namespace KratomShop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Items");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("e05c5364-c6ed-48a2-854b-c22aafd9b543"),
-                            CreatedAt = new DateTime(2024, 4, 6, 16, 20, 0, 0, DateTimeKind.Utc).AddTicks(3306),
-                            Description = "A popular strain known for its relaxing effects.",
-                            ImageUrl = "/images/green-bali.png",
-                            IsActive = true,
-                            Name = "Kratom Red Bali",
-                            Price = 799.00m,
-                            Stock = 100
-                        },
-                        new
-                        {
-                            Id = new Guid("94734818-e8a8-4142-937e-af6d71dd2823"),
-                            CreatedAt = new DateTime(2024, 4, 6, 16, 20, 0, 0, DateTimeKind.Utc).AddTicks(3306),
-                            Description = "A potent strain with energizing effects.",
-                            ImageUrl = "/images/green-bali.png",
-                            IsActive = true,
-                            Name = "Kratom Green Maeng Da",
-                            Price = 850.99m,
-                            Stock = 50
-                        });
                 });
 
             modelBuilder.Entity("KratomShop.Models.Database.Review", b =>
@@ -222,26 +163,6 @@ namespace KratomShop.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("03c02b6e-524e-4fed-9ac8-809acd6eef12"),
-                            Comment = "Kratom byl výborný, určitě objednám znovu!",
-                            CreatedAt = new DateTime(2024, 4, 6, 16, 20, 0, 0, DateTimeKind.Utc).AddTicks(3315),
-                            ItemId = new Guid("e05c5364-c6ed-48a2-854b-c22aafd9b543"),
-                            Rating = 5,
-                            UserId = "f9c0980f-0fac-44b1-a59e-d55a64d9ad01"
-                        },
-                        new
-                        {
-                            Id = new Guid("88b1a6fb-c1ae-4210-af91-282daad1e2b1"),
-                            Comment = "Velmi kvalitní kratom, jeden z nejlepších, co jsem vyzkoušel.",
-                            CreatedAt = new DateTime(2024, 4, 6, 16, 25, 0, 0, DateTimeKind.Utc).AddTicks(3315),
-                            ItemId = new Guid("e05c5364-c6ed-48a2-854b-c22aafd9b543"),
-                            Rating = 4,
-                            UserId = "f9c0980f-0fac-44b1-a59e-d55a64d9ad04"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
