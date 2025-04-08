@@ -44,6 +44,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 });
 
 builder.Services.AddScoped<ShopCatalogService>();
+builder.Services.AddScoped<CartService>();
 builder.Services.AddRadzenComponents();
 builder.Services.AddSignalR(e => {
     e.MaximumReceiveMessageSize = 102400000;

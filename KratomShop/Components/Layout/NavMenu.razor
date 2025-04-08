@@ -29,7 +29,7 @@
         </li>
         <li>
             <a class="btn btn-dark" href="/basket">
-                Košík <span class="badge text-bg-light btn-sm">3</span>
+                Košík <span class="badge text-bg-light btn-sm">@CartService.GetTotalItemsCount()</span>
             </a>
         </li>
     </ul>
@@ -54,23 +54,29 @@
     </AuthorizeView>
 
 @code {
+    [Inject]
+    private CartService CartService { get; set; } = null!;
+
     private string? currentUrl;
 
     protected override void OnInitialized()
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
+        CartService.OnChange += StateHasChanged;
     }
+
+    public void Dispose()
+    {
+        CartService.OnChange -= StateHasChanged;
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
         currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
         StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        NavigationManager.LocationChanged -= OnLocationChanged;
     }
 }
 

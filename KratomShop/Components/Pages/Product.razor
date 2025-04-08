@@ -33,7 +33,7 @@ else
                     <h4 class="text-success">Cena: @_item.Price Kč</h4>
                 </div>
                 <div class="col text-end">
-                    <button class="btn btn-dark">Přidat do košíku</button>
+                    <button onclick="@(() => CartService.AddToCart(_item))" class="btn btn-dark">Přidat do košíku</button>
                 </div>
             </div>
         </div>
@@ -105,6 +105,8 @@ else
     private ILogger<Product> _logger { get; set; } = null!;
     [Inject]
     private NavigationManager _navigationManager { get; set; } = null!;
+    [Inject]
+    private CartService CartService { get; set; } = null!;
 
     private Item? _item;
     private Guid productId;

@@ -19,8 +19,8 @@
                     <p class="price text-end m-0">@item.Price Kč</p>  
                 </div>  
                 <p class="description mt-2">@item.Description</p>  
-                <a class="btn btn-dark btn-sm" href="/product/@item.Id">Details</a>  
-                <a class="btn btn-dark btn-sm" href="/product/@item.Id" disabled>Add to cart</a>  
+                <a class="btn btn-dark btn-sm" href="/product/@item.Id">Details</a>
+                <button class="btn btn-dark btn-sm" onclick="@(() => _cartService.AddToCart(item))">Add to cart</button>
             </div>  
         </div>  
     }  
@@ -36,6 +36,8 @@
     private NotificationService _notificationService { get; set; } = null!;
     [Inject]
     private ILogger<Products> _logger { get; set; } = null!;
+    [Inject]
+    private CartService _cartService { get; set; } = null!;
 
     public IEnumerable<Item> Items { get; set; } = new List<Item>();  
 
