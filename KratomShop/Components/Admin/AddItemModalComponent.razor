@@ -1,111 +1,188 @@
 ﻿@using System.Text.Json
 @using System.ComponentModel.DataAnnotations
 
-<RadzenTemplateForm TItem="Model" Data=@model Submit=@OnSubmit InvalidSubmit=@OnInvalidSubmit>
-    <RadzenFieldset Text="Personal information">
-        <RadzenStack Gap="2rem" class="rz-p-4 rz-p-md-12">
+<RadzenTemplateForm TItem="FormModel" Data="@model" Submit="@OnSubmit">
+    <RadzenStack Gap="1rem" class="">
 
-            <RadzenRow AlignItems="AlignItems.Center" RowGap="0.25rem">
-                <RadzenColumn Size="12" SizeMD="4" class="rz-text-align-start rz-text-align-md-end">
-                    <RadzenLabel Text="Name" Component="Name" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="8">
-                    <RadzenTextBox style="display: block" Name="Name" @bind-Value=@model.Name class="rz-w-100" />
+        <RadzenRow>
+            <RadzenFormField Text="Name" Variant="Variant.Outlined" Style="width: 100%;">
+                <ChildContent>
+                    <RadzenTextBox Name="Name" @bind-Value="@model.Name" style="display: block" class="rz-w-100" />
+                </ChildContent>
+                <Helper>
                     <RadzenDataAnnotationValidator Component="Name" Style="position: absolute" />
-                </RadzenColumn>
-            </RadzenRow>
+                </Helper>
+            </RadzenFormField>
+        </RadzenRow>
 
-            <RadzenRow AlignItems="AlignItems.Center" RowGap="0.25rem">
-                <RadzenColumn Size="12" SizeMD="4" class="rz-text-align-start rz-text-align-md-end">
-                    <RadzenLabel Text="Description" Component="Description" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="8">
-                    <RadzenTextArea style="display: block" Name="Description" @bind-Value=@model.Description class="rz-w-100" />
+        <RadzenRow>
+            <RadzenFormField Text="Description" Variant="Variant.Outlined" Style="width: 100%;">
+                <ChildContent>
+                    <RadzenTextArea Name="Description" @bind-Value="@model.Description" style="display: block" class="rz-w-100" />
+                </ChildContent>
+                <Helper>
                     <RadzenDataAnnotationValidator Component="Description" Style="position: absolute" />
-                </RadzenColumn>
-            </RadzenRow>
+                </Helper>
+            </RadzenFormField>
+        </RadzenRow>
 
-            <RadzenRow AlignItems="AlignItems.Center" RowGap="0.25rem">
-                <RadzenColumn Size="12" SizeMD="4" class="rz-text-align-start rz-text-align-md-end">
-                    <RadzenLabel Text="Price" Component="Price" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="8">
-                    <RadzenNumeric style="display: block" Name="Price" @bind-Value=@model.Price class="rz-w-100" />
+        <RadzenRow>
+            <RadzenFormField Text="Price" Variant="Variant.Outlined" Style="width: 100%;">
+                <ChildContent>
+                    <RadzenNumeric Name="Price" @bind-Value="@model.Price" style="display: block" class="rz-w-100" />
+                </ChildContent>
+                <Helper>
                     <RadzenDataAnnotationValidator Component="Price" Style="position: absolute" />
-                </RadzenColumn>
-            </RadzenRow>
+                </Helper>
+            </RadzenFormField>
+        </RadzenRow>
 
-            <RadzenRow AlignItems="AlignItems.Center" RowGap="0.25rem">
-                <RadzenColumn Size="12" SizeMD="4" class="rz-text-align-start rz-text-align-md-end">
-                    <RadzenLabel Text="Stock" Component="Stock" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="8">
-                    <RadzenNumeric style="display: block" Name="Stock" @bind-Value=@model.Stock class="rz-w-100" />
+        <RadzenRow>
+            <RadzenFormField Text="Stock" Variant="Variant.Outlined" Style="width: 100%;">
+                <ChildContent>
+                    <RadzenNumeric Name="Stock" @bind-Value="@model.Stock" style="display: block" class="rz-w-100" />
+                </ChildContent>
+                <Helper>
                     <RadzenDataAnnotationValidator Component="Stock" Style="position: absolute" />
-                </RadzenColumn>
-            </RadzenRow>
+                </Helper>
+            </RadzenFormField>
+        </RadzenRow>
 
-            <RadzenRow AlignItems="AlignItems.Center" RowGap="0.25rem">
-                <RadzenColumn Size="12" SizeMD="4" class="rz-text-align-start rz-text-align-md-end">
-                    <RadzenLabel Text="Is Active" Component="IsActive" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="8">
-                    <RadzenSwitch style="display: block" Name="IsActive" @bind-Value=@model.IsActive />
-                    <RadzenDataAnnotationValidator Component="IsActive" Style="position: absolute" />
-                </RadzenColumn>
-            </RadzenRow>
+        <RadzenRow>
+            <RadzenColumn>
+                <label for="IsActive" class="rz-form-label">Is Active</label>
+                <RadzenSwitch id="IsActive" Name="IsActive" @bind-Value="@model.IsActive" style="display: block; margin-top: 0.5rem;" />
+                <RadzenDataAnnotationValidator Component="IsActive" Style="margin-top: 0.5rem;" />
+            </RadzenColumn>
+        </RadzenRow>
 
-            <RadzenRow AlignItems="AlignItems.Center" RowGap="0.25rem">
-                <RadzenColumn Size="12" SizeMD="4" class="rz-text-align-start rz-text-align-md-end">
-                    <RadzenLabel Text="Image" Component="Image" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="8">
-                    <RadzenFileInput @bind-Value=@model.Image @bind-FileName=@model.FileName  TValue="byte[]" Style="width: 100%"
-                                     Error=@(args => OnUploadError(args, "FileInput")) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" />
+        <RadzenRow>
+            <RadzenFormField Text="Image" Variant="Variant.Outlined" Style="width: 100%;">
+                <ChildContent>
+                    <RadzenFileInput Name="Image"
+                    @bind-Value="@model.Image"
+                    @bind-FileName="@model.FileName"
+                    style="width: 100%"
+                    Error="@(args => OnUploadError(args, "FileInput"))"
+                    InputAttributes="@(new Dictionary<string,object>() { { "aria-label", "select file" }})" />
+                </ChildContent>
+                <Helper>
                     <RadzenDataAnnotationValidator Component="Image" Style="position: absolute" />
-                </RadzenColumn>
-            </RadzenRow>
+                </Helper>
+            </RadzenFormField>
+        </RadzenRow>
 
-            <RadzenRow AlignItems="AlignItems.Center" class="rz-mt-4">
-                <RadzenColumn Size="12" Offset="0" SizeMD="8" OffsetMD="4">
-                    <RadzenButton ButtonType="ButtonType.Submit" Text="Submit"></RadzenButton>
-                </RadzenColumn>
-            </RadzenRow>
-        </RadzenStack>
-    </RadzenFieldset>
+        <RadzenRow>
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Submit" />
+        </RadzenRow>
+
+    </RadzenStack>
 </RadzenTemplateForm>
 
+
 @code {
-    class Model
+    [Inject]
+    private ShopCatalogService catalogService { get; set; } = null!;
+    [Inject]
+    private NotificationService notificationService { get; set; } = null!;
+    [Inject]
+    private ILogger<AddItemModalComponent> logger { get; set; } = null!;
+    [Inject]
+    private DialogService dialogService { get; set; } = null!;
+
+    private FormModel model = new FormModel();
+
+    private async Task OnSubmit(FormModel model)
+    {
+        try
+        {
+            // Získá cestu ke složce, kde běží aplikace (např. bin\Debug\net6.0\)
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            // Sestavení cesty do podsložky "test" v aktuálním adresáři
+            string targetDir = Path.Combine(baseDir, "wwwroot", "uploads");
+            // Vytvoření složky "test", pokud ještě neexistuje
+            Directory.CreateDirectory(targetDir);
+            // Vráti extension nahraného souboru
+            var extension = Path.GetExtension(model.FileName);
+            // Unikatní file name
+            var newFileName = Guid.NewGuid().ToString().Replace("-", "") + extension;
+            // Sestavení úplné cesty k souboru
+            string filePath = Path.Combine(targetDir, newFileName);
+
+            // Mapování na entitiu v DB
+            var item = new Item()
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    Price = model.Price.HasValue ? model.Price.Value : throw new ArgumentNullException(nameof(model.Price), "Price is null"),
+                    Stock = model.Stock.HasValue ? model.Stock.Value : throw new ArgumentNullException(nameof(model.Stock), "Stock is null"),
+                    IsActive = model.IsActive,
+                    ImageUrl = Path.Combine("uploads", newFileName).Replace("\\", "/"),
+                };
+            await catalogService.AddItemAsync(item);
+
+            // Pokud model.Image obsahuje Base64 kódovaný řetězec ve formátu byte[]
+            // Nejprve převedeme byte[] na string:
+            string base64Image = System.Text.Encoding.UTF8.GetString(model.Image);
+
+            // Pokud je přítomen prefix (např. "data:image/jpeg;base64,") odstraníme jej:
+            const string base64Prefix = "base64,";
+            int index = base64Image.IndexOf(base64Prefix);
+            if (index >= 0)
+            {
+                base64Image = base64Image.Substring(index + base64Prefix.Length);
+            }
+
+            // Dekódujeme Base64 řetězec na původní byte[]
+            byte[] imageBytes = Convert.FromBase64String(base64Image);
+
+            // Uložíme binární data obrázku na disk
+            await File.WriteAllBytesAsync(filePath, imageBytes);
+
+            notificationService.Notify(new NotificationMessage()
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Položka byla úspěšně přidána"
+                });
+            dialogService.Close(true);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Chyba při zpracování formuláře: {Message}", ex.Message);
+            notificationService.Notify(new NotificationMessage()
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = "Chyba",
+                    Detail = "Nastala chyba při zpracování formuláře."
+                });
+            return;
+        }
+    }
+
+    void OnUploadError(UploadErrorEventArgs args, string name)
+    {
+        logger.LogError(new Exception(args.Message), "Chyba při nahrávání souboru: {Message}", args.Message);
+        notificationService.Notify(new NotificationMessage()
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Chyba při nahrávání souboru",
+                Detail = args.Message
+            });
+    }
+
+    class FormModel
     {
         [Required]
         public string Name { get; set; } = null!;
         [Required]
         public string Description { get; set; } = null!;
         [Required]
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
         [Required]
         public byte[] Image { get; set; } = null!;
         public string FileName { get; set; } = null!;
         [Required]
-        public int Stock { get; set; }
+        public int? Stock { get; set; }
         public bool IsActive { get; set; } = true;
-    }
-
-    Model model = new Model();
-
-    void OnSubmit(Model model)
-    {
-        //console.Log($"Submit: {JsonSerializer.Serialize(model, new JsonSerializerOptions() { WriteIndented = true })}");
-    }
-
-    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
-    {
-        //console.Log($"InvalidSubmit: {JsonSerializer.Serialize(args, new JsonSerializerOptions() { WriteIndented = true })}");
-    }
-
-    void OnUploadError(UploadErrorEventArgs args, string name)
-    {
-        //console.Log($"{args.Message}");
     }
 }

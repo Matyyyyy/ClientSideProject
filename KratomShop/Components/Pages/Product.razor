@@ -9,7 +9,15 @@
 }
 else
 {
-    <h1 class="mb-4">@_item.Name</h1>
+    <RadzenRow>
+        <h1 class="mb-4">@_item.Name</h1>
+        <RadzenButton Icon="delete"
+                      ButtonType="ButtonType.Button"
+                      ButtonStyle="ButtonStyle.Danger"
+                      Style="max-height: 10px;"
+                      Click="RemoveItem" />
+    </RadzenRow>
+    
 
     <div class="row align-items-center mb-5">
         <div class="col-md-6 text-center">
@@ -50,7 +58,7 @@ else
             </p>
 
         }
-        
+
         <div class="list-group">
 
             @foreach (var review in _item.Reviews)
@@ -85,10 +93,18 @@ else
 
 @code {
     [Parameter]
-    public string Id { get; set; }
+    public string Id { get; set; } = null!;
 
     [Inject]
-    private ShopCatalogService _shopCatalogService { get; set; }
+    private ShopCatalogService _shopCatalogService { get; set; } = null!;
+    [Inject]
+    private DialogService _dialogService { get; set; } = null!;
+    [Inject]
+    private NotificationService _notificationService { get; set; } = null!;
+    [Inject]
+    private ILogger<Product> _logger { get; set; } = null!;
+    [Inject]
+    private NavigationManager _navigationManager { get; set; } = null!;
 
     private Item? _item;
     private Guid productId;
@@ -101,8 +117,17 @@ else
         }
         else
         {
-            // Ošetření situace, kdy se Guid nepodaří načíst
+            _logger.LogError("Chyba při načítání produktu: {Id} není platný GUID", Id);
+            _navigationManager.NavigateTo("/notfound");
         }
     }
-
+    private async Task RemoveItem(MouseEventArgs args)
+    {
+        var result = await _dialogService.Confirm("Opravdu si přiejete smazání produktu?", "Smazání produktu");
+        if (result.HasValue && result.Value)
+        {
+            await _shopCatalogService.RemoveItemAsync(productId);
+            _navigationManager.NavigateTo("/products");
+        }
+    }
 }

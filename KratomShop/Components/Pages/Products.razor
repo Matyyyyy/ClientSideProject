@@ -1,42 +1,84 @@
-﻿@page "/products"
-@using KratomShop.Data
-@using KratomShop.Models.Database
-<PageTitle>Produkty | Kratom E-shop</PageTitle>
+﻿@page "/products"  
+@using KratomShop.Data  
+@using KratomShop.Models.Database  
+@using KratomShop.Components.Admin
+<PageTitle>Produkty | Kratom E-shop</PageTitle>  
 
-<h1>Produkty</h1>
-<hr/>
-<div class="row">
-@foreach (var item in Items)
-{
-    <div class="col-12 col-md-4">
-        <div class="product-card mb-4">
-            <img src="@item.ImageUrl" alt="Kratom fotka" class="img-fluid rounded" style="max-width:200px;" />
-            <h2>@item.Name</h2>
-            <div class="mt-2 d-flex justify-content-between align-items-center">
-                <p class="rating m-0">4,3 (★★★★☆)</p>
-                <p class="price text-end m-0">@item.Price Kč</p>
-            </div>
-            <p class="description mt-2">@item.Description</p>
-            <a class="btn btn-dark btn-sm" href="/product/@item.Id">Details</a>
-            <a class="btn btn-dark btn-sm" href="/product/@item.Id" disabled>Add to cart</a>
-        </div>
-    </div>
-}
-    
-</div>
+<h1>Produkty</h1>  
+<RadzenButton Icon="add_circle" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Primary" Text="Přidat produkt" Click="AddProduct" />  
+<hr/>  
+<div class="row">  
+    @foreach (var item in Items)  
+    {  
+        <div class="col-12 col-md-4">  
+            <div class="product-card mb-4">  
+                <img src="@item.ImageUrl" alt="Kratom fotka" class="img-fluid rounded" style="max-width:200px;" />  
+                <h2>@item.Name</h2>  
+                <div class="mt-2 d-flex justify-content-between align-items-center">  
+                    <p class="rating m-0">4,3 (★★★★☆)</p>  
+                    <p class="price text-end m-0">@item.Price Kč</p>  
+                </div>  
+                <p class="description mt-2">@item.Description</p>  
+                <a class="btn btn-dark btn-sm" href="/product/@item.Id">Details</a>  
+                <a class="btn btn-dark btn-sm" href="/product/@item.Id" disabled>Add to cart</a>  
+            </div>  
+        </div>  
+    }  
 
-
+</div>  
 
 @code {
-    //ApplicationDbContext
-    [Inject] private ShopCatalogService _shopCatalogService { get; set; }
+    [Inject]
+    private ShopCatalogService _shopCatalogService { get; set; } = null!;
+    [Inject]
+    private DialogService _dialogService { get; set; } = null!;
+    [Inject]
+    private NotificationService _notificationService { get; set; } = null!;
+    [Inject]
+    private ILogger<Products> _logger { get; set; } = null!;
 
+    public IEnumerable<Item> Items { get; set; } = new List<Item>();  
 
-    public IEnumerable<Item> Items { get; set; } = new List<Item>();
-    
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()  
     {
-        Items = await _shopCatalogService.GetAllItemsAsync();
-    }
+        await GetProducts();
 
+    }  
+
+    private async Task AddProduct(MouseEventArgs args)  
+    {  
+        var result = await _dialogService.OpenAsync<AddItemModalComponent>("Přidat produkt",null, new DialogOptions()
+            {
+                Width = "600px",
+                Height = "600px",
+                ShowClose = true,
+                Resizable = true,
+                Draggable = true,
+                CloseDialogOnEsc = true,
+                CloseDialogOnOverlayClick = true
+            });
+        if (result != null)
+        {
+            await GetProducts();
+        }   
+    }  
+
+    //get products
+    private async Task GetProducts()
+    {
+        try
+        {
+            Items = await _shopCatalogService.GetAllItemsAsync();
+        }
+        catch(Exception e)
+        {
+            _logger.LogError(e, "Error while getting products");
+            _notificationService.Notify(new NotificationMessage()
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = "Chyba při načítání produktů",
+                    Detail = e.Message
+                });            
+        }
+    }
 }

@@ -29,5 +29,22 @@ namespace KratomShop.Servicies
                 .FirstOrDefaultAsync();
         }
 
+        public async Task AddItemAsync(Item item)
+        {
+            _context.Items.Add(item);
+            await _context.SaveChangesAsync();
+        }
+
+        //remove
+        public async Task RemoveItemAsync(Guid id)
+        {
+            var item = await _context.Items.FindAsync(id);
+            if (item != null)
+            {
+                _context.Items.Remove(item);
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }

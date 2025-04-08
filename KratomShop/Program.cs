@@ -45,6 +45,9 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 
 builder.Services.AddScoped<ShopCatalogService>();
 builder.Services.AddRadzenComponents();
+builder.Services.AddSignalR(e => {
+    e.MaximumReceiveMessageSize = 102400000;
+});
 
 var app = builder.Build();
 
@@ -72,5 +75,6 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+app.UseStaticFiles();
 
 app.Run();

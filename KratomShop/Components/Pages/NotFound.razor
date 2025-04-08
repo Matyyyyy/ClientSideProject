@@ -1,0 +1,14 @@
+﻿@page "/notfound"
+@inject NavigationManager NavigationManager
+
+<h1>404 - Stránka nenalezena</h1>
+<p>Požadovaný záznam nebyl nalezen nebo byl odstraněn.</p>
+
+<button class="btn btn-primary" @onclick="NavigateHome">Zpět na hlavní stránku</button>
+
+@code {
+    void NavigateHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
