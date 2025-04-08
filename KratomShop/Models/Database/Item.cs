@@ -18,13 +18,15 @@ namespace KratomShop.Models.Database
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
         [Required]
-        public int VatRate { get; set; }
+        [Column(TypeName = "decimal(4,5)")]
+        public decimal VatRate { get; set; }
         public string ImageUrl { get; set; } = null!;
         [Required]
         public int Stock { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public decimal PriceIncVat => Price * (1 + VatRate);
 
         //Navigation properties
         //public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();

@@ -66,7 +66,8 @@ namespace KratomShop.Data
                     Stock = 100,
                     ImageUrl = "/images/green-bali.png",
                     CreatedAt = new DateTime(2024, 4, 6, 16, 20, 0, DateTimeKind.Utc).AddTicks(3306),
-                    IsActive = true
+                    IsActive = true,
+                    VatRate = 0.21m
                 },
                 new Item
                 {
@@ -77,7 +78,8 @@ namespace KratomShop.Data
                     Stock = 50,
                     ImageUrl = "/images/green-bali.png",
                     CreatedAt = new DateTime(2024, 4, 6, 16, 20, 0, DateTimeKind.Utc).AddTicks(3306),
-                    IsActive = true
+                    IsActive = true,
+                    VatRate = 0.21m
                 }
             );
             return builder;

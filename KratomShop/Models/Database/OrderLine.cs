@@ -15,8 +15,9 @@ namespace KratomShop.Models.Database
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+        [Column(TypeName = "decimal(4,5)")]
         [Required]
-        public int VatRate { get; set; }
+        public decimal VatRate { get; set; }
         [Required]
         public int Quantity { get; set; }
         public Order Order { get; set; } = null!;
