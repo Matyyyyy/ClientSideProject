@@ -8,6 +8,9 @@ namespace KratomShop.Data
     {
         public DbSet<Item> Items { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<OrderLine> OrderLines { get; set; } = null!;
+        public DbSet<Adress> Adresses { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
