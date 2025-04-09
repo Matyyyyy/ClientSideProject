@@ -46,5 +46,12 @@ namespace KratomShop.Servicies
             }
         }
 
+        public async Task AddNewOrder(Order order)
+        {
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 }

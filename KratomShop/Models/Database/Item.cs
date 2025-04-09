@@ -18,7 +18,7 @@ namespace KratomShop.Models.Database
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
         [Required]
-        [Column(TypeName = "decimal(4,5)")]
+        [Column(TypeName = "decimal(6,4)")]
         public decimal VatRate { get; set; }
         public string ImageUrl { get; set; } = null!;
         [Required]
@@ -27,8 +27,7 @@ namespace KratomShop.Models.Database
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public decimal PriceIncVat => Price * (1 + VatRate);
-
         //Navigation properties
-        //public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public virtual ICollection<OrderLine> OrderItems { get; set; } = new List<OrderLine>();
     }
 }

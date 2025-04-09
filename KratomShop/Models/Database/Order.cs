@@ -15,8 +15,8 @@ namespace KratomShop.Models.Database
         public ApplicationUser? CreatedBy { get; set; }
         public string? CreatedById { get; set; }
         [Required]
-        public virtual Adress Adress { get; set; } = null!;
-        public Guid AdressId { get; set; }
+        public Address Address { get; set; } = null!;
+        public Guid AddressId { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal? Discount { get; set; }
         [Column(TypeName = "decimal(18,2)")]

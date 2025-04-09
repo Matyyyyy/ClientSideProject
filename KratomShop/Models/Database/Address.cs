@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KratomShop.Models.Database
 {
-    public class Adress
+    public class Address
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

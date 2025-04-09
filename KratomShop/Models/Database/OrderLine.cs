@@ -9,13 +9,14 @@ namespace KratomShop.Models.Database
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
-        public virtual Item Item { get; set; } = null!;
+        public Item Item { get; set; } = null!;
+        public Guid ItemId { get; set; }
         [Required]
         public string Name { get; set; } = null!;
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
-        [Column(TypeName = "decimal(4,5)")]
+        [Column(TypeName = "decimal(6,4)")]
         [Required]
         public decimal VatRate { get; set; }
         [Required]

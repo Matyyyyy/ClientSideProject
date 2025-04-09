@@ -30,7 +30,7 @@ else
             </p>
             <div class="row mt-3">
                 <div class="col">
-                    <h4 class="text-success">Cena: @_item.Price Kč</h4>
+                    <h4 class="text-success">Cena: @_item.PriceIncVat.ToString("F2") Kč</h4>
                 </div>
                 <div class="col text-end">
                     <button onclick="@(() => CartService.AddToCart(_item))" class="btn btn-dark">Přidat do košíku</button>

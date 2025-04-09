@@ -36,6 +36,16 @@
                 </Helper>
             </RadzenFormField>
         </RadzenRow>
+        <RadzenRow>
+           <RadzenFormField Text="DPH (%)" Variant="Variant.Outlined" Style="width: 100%;">
+               <ChildContent>
+                    <RadzenNumeric Step="0.01" Name="Vat" @bind-Value="@model.Vat" style="display: block" class="rz-w-100" Format="P2" />
+               </ChildContent>
+               <Helper>
+                   <RadzenDataAnnotationValidator Component="Vat" Style="position: absolute" />
+               </Helper>
+           </RadzenFormField>
+        </RadzenRow>
 
         <RadzenRow>
             <RadzenFormField Text="Stock" Variant="Variant.Outlined" Style="width: 100%;">
@@ -118,6 +128,7 @@
                     Stock = model.Stock.HasValue ? model.Stock.Value : throw new ArgumentNullException(nameof(model.Stock), "Stock is null"),
                     IsActive = model.IsActive,
                     ImageUrl = Path.Combine("uploads", newFileName).Replace("\\", "/"),
+                    VatRate = model.Vat.HasValue ? model.Vat.Value : throw new ArgumentNullException(nameof(model.Vat), "Vat is null"),
                 };
             await catalogService.AddItemAsync(item);
 
@@ -184,5 +195,7 @@
         [Required]
         public int? Stock { get; set; }
         public bool IsActive { get; set; } = true;
+        [Required]
+        public decimal? Vat { get; set; }
     }
 }

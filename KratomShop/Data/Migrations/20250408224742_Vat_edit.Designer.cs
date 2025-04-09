@@ -4,6 +4,7 @@ using KratomShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KratomShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250408224742_Vat_edit")]
+    partial class Vat_edit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,7 +136,7 @@ namespace KratomShop.Migrations
                         });
                 });
 
-            modelBuilder.Entity("KratomShop.Models.Database.Address", b =>
+            modelBuilder.Entity("KratomShop.Models.Database.Adress", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -170,7 +173,7 @@ namespace KratomShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Adresses");
                 });
 
             modelBuilder.Entity("KratomShop.Models.Database.Item", b =>
@@ -245,7 +248,7 @@ namespace KratomShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("AddressId")
+                    b.Property<Guid>("AdressId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedById")
@@ -265,7 +268,7 @@ namespace KratomShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AdressId");
 
                     b.HasIndex("CreatedById");
 
@@ -493,9 +496,9 @@ namespace KratomShop.Migrations
 
             modelBuilder.Entity("KratomShop.Models.Database.Order", b =>
                 {
-                    b.HasOne("KratomShop.Models.Database.Address", "Address")
+                    b.HasOne("KratomShop.Models.Database.Adress", "Adress")
                         .WithMany()
-                        .HasForeignKey("AddressId")
+                        .HasForeignKey("AdressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -503,7 +506,7 @@ namespace KratomShop.Migrations
                         .WithMany()
                         .HasForeignKey("CreatedById");
 
-                    b.Navigation("Address");
+                    b.Navigation("Adress");
 
                     b.Navigation("CreatedBy");
                 });

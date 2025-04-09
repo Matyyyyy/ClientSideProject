@@ -1,44 +1,236 @@
 ﻿@page "/basket"
 <PageTitle>Košík | Kratom E-shop</PageTitle>
-<section class="cart-container">
-    <h1>Košík</h1>
-    @{
-        var cartItems = cartService.GetCartItems();
-        if (cartItems == null || cartItems.Count == 0)
-        {
-            <p>Váš košík je prázdný.</p>
-        }
-        else
-        {
-            <p>Položky: @cartItems.Count</p>
-        }
-    }
-    
-    <div class="cart-items">
-        @foreach (var item in cartItems)
-        {
-            <div class="cart-item">
-                <img src="@item.Item.ImageUrl" alt="Kratacek">
-                <div class="item-details">
-                    <h2>@item.Item.Name</h2>
-                    <span class="weight">100g</span>
-                </div>
-                <div class="price">@item.Item.Price Kč</div>
-            </div>
-            
-        }
-    </div>
-    <div class="order-summary">
-        <h2>Shrnutí objednávky</h2>
+
+<RadzenSteps Change="@OnChange" @ref="steps" @bind-Value="currentStep" >
+    <Steps >
         @{
+            var cartItems = cartService.GetCartItems();
+            var totalPriceIncVat = cartItems.Sum(i => i.Item.PriceIncVat * i.Quantity);
             var totalPrice = cartItems.Sum(i => i.Item.Price * i.Quantity);
         }
-        <h3>Celkem: @totalPrice Kč</h3>
-        <button>Pokračovat v objednávce</button>
-    </div>
-</section>
+        <RadzenStepsItem Text="Košík" NextText="Pokračovat v objednávce" >
+            <section class="cart-container">
+                @{
+                    if (cartItems == null || cartItems.Count == 0)
+                    {
+                        <p>Váš košík je prázdný.</p>
+                    }
+                    else
+                    {
+                        <p>Položky: @cartItems.Count</p>
+                    }
+                }
+
+                <div class="cart-items">
+                    @foreach (var item in cartItems)
+                    {
+                        <div class="cart-item">
+                            <img src="@item.Item.ImageUrl" alt="Kratacek">
+                            <div class="item-details">
+                                <h2>@item.Item.Name</h2>
+                                <span class="weight">100g</span>
+                            </div>
+                            <div class="price">@item.Item.Price Kč</div>
+                        </div>
+
+                    }
+                </div>
+                <div class="order-summary">
+                    <h2>Shrnutí objednávky</h2>
+                    <p>Celkem bez DPH: @totalPrice.ToString("F2") Kč</p>
+                    <h3>Celkem: @totalPriceIncVat.ToString("F2") Kč</h3>
+                </div>
+            </section>
+        </RadzenStepsItem>
+        <RadzenStepsItem Text="Objednávka" NextText="Závazně objednat" Disabled="cartItems.Count == 0">
+            <p>Vyplňte prosím dodací adresu a další informace.</p>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <h2>Typ doručení</h2>
+                    <hr />
+                    <RadzenRadioButtonList TValue="int" @bind-Value=@shippingMethod Orientation="Orientation.Vertical">
+                        <Items>
+                            <RadzenRadioButtonListItem Text="Dobírka" Value="1" />
+                            <RadzenRadioButtonListItem Disabled Text="Zasilkovna (Dačasně nedostupné)" Value="2" />
+                            <RadzenRadioButtonListItem Disabled Text="Doručení na adresu (Dačasně nedostupné)" Value="3" />
+                        </Items>
+                    </RadzenRadioButtonList>
+                    <h2>Souhn</h2>
+                    <hr />
+                    <span>Doprava: 0 Kč</span>
+                    <br />
+                    <span>Celkem bez DPH: @totalPrice.ToString("F2") Kč</span>
+                    <br />
+                    <h4 style="margin-top:1rem;">Celkem: @totalPriceIncVat.ToString("F2") Kč</h4>
+
+                </div>
+                <div class="col-12 col-md-6">
+                    <h2>Dodací informace</h2>
+                    <hr />
+                    <RadzenTemplateForm TItem="Address" Data="@model" Submit="@OnSubmit">
+                        <RadzenStack Gap="1rem">
+
+                            <RadzenRow>
+                                <RadzenFormField Text="Jméno a  příjmení / Název společnosti *" Variant="Variant.Outlined" Style="width: 100%;">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Name" @bind-Value="@model.Name" class="rz-w-100" />
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenDataAnnotationValidator Component="Name" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenRow>
+
+                            <RadzenRow>
+                                <RadzenFormField Text="Ulice a číslo*" Variant="Variant.Outlined" Style="width: 100%;">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="StreetAddress" @bind-Value="@model.StreetAddress" class="rz-w-100" />
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenDataAnnotationValidator Component="StreetAddress" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenRow>
+
+                            <RadzenRow>
+                                <RadzenColumn Size="8" SizeMD="9" SizeXL="10">
+                                    <RadzenFormField Text="Město *" Variant="Variant.Outlined" Style="width: 100%;">
+                                        <ChildContent>
+                                            <RadzenTextBox Name="City" @bind-Value="@model.City" class="rz-w-100" />
+                                        </ChildContent>
+                                        <Helper>
+                                            <RadzenDataAnnotationValidator Component="City" />
+                                        </Helper>
+                                    </RadzenFormField>
+                                </RadzenColumn>
+                                <RadzenColumn Size="4" SizeMD="3" SizeXL="2">
+                                    <RadzenFormField Text="PSČ *" Variant="Variant.Outlined" Style="width: 100%;">
+                                        <ChildContent>
+                                            <RadzenMask Name="ZipCode" Mask="*** **" CharacterPattern="[0-9]" @bind-Value="@model.ZipCode" class="rz-w-100" />
+                                        </ChildContent>
+                                        <Helper>
+                                            <RadzenDataAnnotationValidator Component="ZipCode" />
+                                        </Helper>
+                                    </RadzenFormField>
+                                </RadzenColumn>
+
+                            </RadzenRow>
+
+                            <RadzenRow>
+                                <RadzenColumn Size="12" SizeMD="6">
+                                    <RadzenFormField Text="IČO" Variant="Variant.Outlined" Style="width: 100%;">
+                                        <ChildContent>
+                                            <RadzenTextBox Name="TaxId" @bind-Value="@model.TaxId" class="rz-w-100" />
+                                        </ChildContent>
+                                    </RadzenFormField>
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="6">
+                                    <RadzenFormField Text="DIČ" Variant="Variant.Outlined" Style="width: 100%;">
+                                        <ChildContent>
+                                            <RadzenTextBox Name="VatId" @bind-Value="@model.VatId" class="rz-w-100" />
+                                        </ChildContent>
+                                    </RadzenFormField>
+                                </RadzenColumn>                              
+                            </RadzenRow>
+
+                            <RadzenRow>
+                                <RadzenFormField Text="Kontaktní email *" Variant="Variant.Outlined" Style="width: 100%;">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="ContactEmail" @bind-Value="@model.ContactEmail" class="rz-w-100" />
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenDataAnnotationValidator Component="ContactEmail" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenRow>
+
+                            <RadzenRow>
+                                <RadzenFormField Text="Telefon" Variant="Variant.Outlined" Style="width: 100%;">
+                                    <ChildContent>
+                                        <RadzenMask Name="ContactPhone" @bind-Value="@model.ContactPhone" Mask="(+***) *** *** ***" CharacterPattern="[0-9]" Placeholder="(+420) 000 000 000" class="rz-w-100" />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenRow>
+
+                            <RadzenRow JustifyContent="JustifyContent.End">
+                                <RadzenButton ButtonType="ButtonType.Submit" Text="Uložit" />
+                            </RadzenRow>
+
+                        </RadzenStack>
+                    </RadzenTemplateForm>
+                </div>
+            </div>
+
+        </RadzenStepsItem>
+        <RadzenStepsItem Text="Potvrzení" Disabled="disabledLastStep">
+            <h1>Potvrzení objednávky</h1>
+            <p>Vaše objednávka byla předána ke spracování pod identifikačním číslem: </p>
+            <p><RadzenButton Text="Zrušit objednávku" ButtonStyle="ButtonStyle.Danger" /></p>
+        </RadzenStepsItem>           
+    </Steps>        
+</RadzenSteps>
+
+
 @code {
     [Inject]
     private CartService cartService { get; set; } = null!;
+    [Inject]
+    private ILogger<Basket> logger { get; set; } = null!;
+    [Inject]
+    private ShopCatalogService catalogService { get; set; } = null!;
+    [Inject]
+    private NotificationService notificationService { get; set; } = null!;
+    private int shippingMethod = 1;
+    private RadzenSteps steps = null!;
+    private bool disabledLastStep { get; set; } = true;  
+    private Address model { get; set; } = new();
+    private Order order { get; set; } = new(); 
+    public int currentStep { get; set; } = 0;
 
+    private void OnChange()
+    {
+
+    }
+
+    private async Task OnSubmit(Address model)
+    {
+        order.Address = model;
+        decimal totalPriceIncVat = 0m;
+        foreach (var item in cartService.GetCartItems())
+        {
+            totalPriceIncVat += item.Item.PriceIncVat * item.Quantity;
+            order.Lines.Add(new OrderLine()
+            {
+                    ItemId = item.Item.Id,
+                    Quantity = item.Quantity,
+                    Price = item.Item.Price,
+                    VatRate = item.Item.VatRate,
+                    Name = item.Item.Name,
+            });
+        }
+        order.TotalPrice = totalPriceIncVat;
+        try
+        {
+            //await catalogService.AddNewOrder(order);
+            disabledLastStep = false;
+            currentStep++;
+            await InvokeAsync(StateHasChanged);
+            await steps.NextStep();
+            await InvokeAsync(StateHasChanged);
+            notificationService.Notify(new NotificationMessage()
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Objednávka byla úspěšně odeslána",
+                });
+        }
+        catch (Exception ex)
+        {
+            notificationService.Notify(new NotificationMessage()
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = "Chyba při odesílání objednávky",
+                });
+            logger.LogError(ex, "Chyba při zpracování objednávky");
+        }
+    }
 }
