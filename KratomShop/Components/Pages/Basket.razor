@@ -1,7 +1,7 @@
 ﻿@page "/basket"
 <PageTitle>Košík | Kratom E-shop</PageTitle>
 
-<RadzenSteps Change="@OnChange" @ref="steps" @bind-Value="currentStep" >
+<RadzenSteps Change="@OnChange" @ref="steps" >
     <Steps >
         @{
             var cartItems = cartService.GetCartItems();
@@ -164,7 +164,7 @@
         </RadzenStepsItem>
         <RadzenStepsItem Text="Potvrzení" Disabled="disabledLastStep">
             <h1>Potvrzení objednávky</h1>
-            <p>Vaše objednávka byla předána ke spracování pod identifikačním číslem: </p>
+            <p>Vaše objednávka byla předána ke spracování pod identifikačním číslem: @order.Id</p>
             <p><RadzenButton Text="Zrušit objednávku" ButtonStyle="ButtonStyle.Danger" /></p>
         </RadzenStepsItem>           
     </Steps>        
@@ -185,7 +185,6 @@
     private bool disabledLastStep { get; set; } = true;  
     private Address model { get; set; } = new();
     private Order order { get; set; } = new(); 
-    public int currentStep { get; set; } = 0;
 
     private void OnChange()
     {
@@ -193,7 +192,7 @@
     }
 
     private async Task OnSubmit(Address model)
-    {
+    {   
         order.Address = model;
         decimal totalPriceIncVat = 0m;
         foreach (var item in cartService.GetCartItems())
@@ -211,10 +210,10 @@
         order.TotalPrice = totalPriceIncVat;
         try
         {
-            //await catalogService.AddNewOrder(order);
+            await catalogService.AddNewOrder(order);
             disabledLastStep = false;
-            currentStep++;
             await InvokeAsync(StateHasChanged);
+            await Task.Delay(50);
             await steps.NextStep();
             await InvokeAsync(StateHasChanged);
             notificationService.Notify(new NotificationMessage()
