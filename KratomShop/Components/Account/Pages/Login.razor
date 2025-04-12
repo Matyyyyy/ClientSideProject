@@ -19,7 +19,6 @@
             <StatusMessage Message="@errorMessage" />
             <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
-                <h2>Use a local account to log in.</h2>
                 <hr />
                 <ValidationSummary class="text-danger" role="alert" />
                 <div class="form-floating mb-3">
@@ -53,14 +52,6 @@
                     </p>
                 </div>
             </EditForm>
-        </section>
-    </div>
-    <div class="col-lg-4 col-lg-offset-2">
-        <section>
-            <h3 style="padding-bottom: 22px;">Use another service to log in.</h3>
-            <hr />
-            <p>Ještě doděláme, ale budete tu možná třeba facebook</p>
-            @* <ExternalLoginPicker /> *@
         </section>
     </div>
 </div>

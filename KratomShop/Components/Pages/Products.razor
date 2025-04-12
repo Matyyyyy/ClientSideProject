@@ -5,8 +5,14 @@
 @using KratomShop.Components.Admin
 <PageTitle>Produkty | Kratom E-shop</PageTitle>  
 
-<h1>Produkty</h1>  
-<RadzenButton Icon="add_circle" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Primary" Text="Přidat produkt" Click="AddProduct" />  
+<RadzenRow>
+    <h1>Produkty</h1>
+    <AuthorizeView Roles="Admin">
+        <Authorized>
+            <RadzenButton Style="max-height:20px" Icon="add_circle" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Success" Click="AddProduct" />
+        </Authorized>
+    </AuthorizeView>
+</RadzenRow>
 <hr/>  
 <div class="row">  
     @foreach (var item in Items)  

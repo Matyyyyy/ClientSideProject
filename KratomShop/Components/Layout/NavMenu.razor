@@ -24,18 +24,29 @@
             </NavLink>
         </li>
         <li>
-            <NavLink class="nav-link" href="/Account/Login" Match="NavLinkMatch.All">
-                Můj účet
+            <NavLink class="nav-link" id="badge" href="basket" Match="NavLinkMatch.All">
+                Košík <span class="badge text-bg-primary">@CartService.GetTotalItemsCount()</span>
             </NavLink>
-        </li>
-        <li>
-            <a class="btn btn-dark" href="/basket">
-                Košík <span class="badge text-bg-light btn-sm">@CartService.GetTotalItemsCount()</span>
-            </a>
         </li>
     </ul>
 
+    <AuthorizeView Roles="Admin">
+        <Authorized>
+            <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/admin/catalog">
+                    <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span>Administrace
+                </NavLink>
+            </div>
+        </Authorized>
+    </AuthorizeView>
     <AuthorizeView>
+        <NotAuthorized>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Account/Manage">
+                    <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Můj účet
+                </NavLink>
+            </div>
+        </NotAuthorized>
         <Authorized>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="Account/Manage">
@@ -53,6 +64,7 @@
             </div>
         </Authorized>
     </AuthorizeView>
+
 
 @code {
     [Inject]

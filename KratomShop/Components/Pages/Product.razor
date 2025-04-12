@@ -13,11 +13,16 @@ else
 {
     <RadzenRow>
         <h1 class="mb-4">@_item.Name</h1>
-        <RadzenButton Icon="delete"
-        ButtonType="ButtonType.Button"
-        ButtonStyle="ButtonStyle.Danger"
-        Style="max-height: 10px;"
-        Click="RemoveItem" />
+        <AuthorizeView Roles="Admin">
+            <Authorized>
+                <RadzenButton Icon="delete"
+                              ButtonType="ButtonType.Button"
+                              ButtonStyle="ButtonStyle.Danger"
+                              Style="max-height: 10px;"
+                              Click="RemoveItem" />
+            </Authorized>
+        </AuthorizeView>
+        
     </RadzenRow>
 
 
