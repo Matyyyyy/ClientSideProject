@@ -1,4 +1,5 @@
 ﻿@page "/product/{Id}"
+@using Microsoft.AspNetCore.Identity
 @rendermode InteractiveServer
 <PageTitle>Produkt | Kratom E-shop</PageTitle>
 
@@ -13,12 +14,12 @@ else
     <RadzenRow>
         <h1 class="mb-4">@_item.Name</h1>
         <RadzenButton Icon="delete"
-                      ButtonType="ButtonType.Button"
-                      ButtonStyle="ButtonStyle.Danger"
-                      Style="max-height: 10px;"
-                      Click="RemoveItem" />
+        ButtonType="ButtonType.Button"
+        ButtonStyle="ButtonStyle.Danger"
+        Style="max-height: 10px;"
+        Click="RemoveItem" />
     </RadzenRow>
-    
+
 
     <div class="row align-items-center mb-5">
         <div class="col-md-6 text-center">
@@ -34,14 +35,14 @@ else
                     <h4 class="text-success">Cena: @_item.PriceIncVat.ToString("F2") Kč</h4>
                 </div>
                 <div class="col text-end">
-                    <button onclick="@(() => CartService.AddToCart(_item))" class="btn btn-dark">Přidat do košíku</button>
+                    <button onclick="@(() => _cartService.AddToCart(_item))" class="btn btn-dark">Přidat do košíku</button>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="mb-5">
-        <h2>Recenze</h2>
+        <h2>Recenze <RadzenButton ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Small" Icon="add" Click="addReview" Disabled="UserAlreadyReviewed()" /> </h2>
         @if (_item.Reviews.Count != 0)
         {
             var averageRating = _item.Reviews.Average(r => r.Rating);
@@ -65,7 +66,17 @@ else
             @foreach (var review in _item.Reviews)
             {
                 <div class="list-group-item">
-                    <h5 class="mb-1">@review.User.FullName</h5>
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="mb-1">@review.User.FullName</h5>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            @if (_userId != null && review.User.Id.Equals(_userId))
+                            {
+                                <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Click="@((args) => removeReview(args,review.Id))" />
+                            }
+                        </div>
+                    </div>
                     <p class="mb-1">@review.Comment</p>
                     <div class="stars">
 
@@ -107,13 +118,21 @@ else
     [Inject]
     private NavigationManager _navigationManager { get; set; } = null!;
     [Inject]
-    private CartService CartService { get; set; } = null!;
+    private CartService _cartService { get; set; } = null!;
+    [Inject]
+    private UserManager<ApplicationUser> _userManager { get; set; } = null!;
+    [Inject]
+    private AuthenticationStateProvider _authenticationStateProvider { get; set; } = null!;
 
     private Item? _item;
     private Guid productId;
+    private string? _userId { get;set;} 
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        _userId = _userManager.GetUserId(authState.User);
         if (Guid.TryParse(Id, out productId))
         {
             _item = await _shopCatalogService.GetItemByIdAsync(productId);
@@ -131,6 +150,52 @@ else
         {
             await _shopCatalogService.RemoveItemAsync(productId);
             _navigationManager.NavigateTo("/products");
+        }
+    }
+    private async Task addReview(MouseEventArgs args)
+    {
+        var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        //redirect to login page if user is not logged in
+        if (user?.Identity?.IsAuthenticated != true)
+        {
+            // URL zakódujeme, aby byla správně předána jako parametr
+            var encodedReturnUrl = Uri.EscapeDataString(_navigationManager.Uri);
+            _navigationManager.NavigateTo($"/Account/Login?ReturnUrl={encodedReturnUrl}");
+            return;
+        }
+        var result = await _dialogService.OpenAsync<AddReviewModalComponent>("Přidat recenzi", new Dictionary<string, object>() { { "ItemId", productId } }, new DialogOptions()
+            {
+                Width = "600px",
+                Height = "300px",
+                ShowClose = true,
+                Resizable = true,
+                Draggable = true,
+                CloseDialogOnEsc = true,
+                CloseDialogOnOverlayClick = true
+            });
+    }
+
+    //chech if user already has review
+    private bool UserAlreadyReviewed()
+    {
+        if (_userId == null)
+        {
+            return false;
+        }
+        else
+        {
+            return _item?.Reviews?.Any(r => r.UserId == _userId) ?? false;
+        }
+    }
+
+    private async Task removeReview(MouseEventArgs args, Guid reviewId)
+    {
+        //modal if user is sure
+        var result = await _dialogService.Confirm("Opravdu si přejete smazání recenze?", "Smazání recenze");
+        if (result.HasValue && result.Value)
+        {
+            await _shopCatalogService.RemoveReviewAsync(reviewId);
         }
     }
 }

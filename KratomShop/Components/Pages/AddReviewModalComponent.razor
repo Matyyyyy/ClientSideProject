@@ -1,0 +1,105 @@
+﻿@using System.Text.Json
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+
+<RadzenTemplateForm TItem="FormModel" Data="@model" Submit="@OnSubmit">
+    <RadzenStack Gap="1rem">
+        <RadzenRow>
+            <RadzenFormField Text="Recenze" Variant="Variant.Outlined" Style="width: 100%;">
+                <ChildContent>
+                    <RadzenTextArea Name="ReviewText" @bind-Value="@model.ReviewText" style="display: block" class="rz-w-100" />
+                </ChildContent>
+                <Helper>
+                    <RadzenDataAnnotationValidator Component="ReviewText" Style="position: absolute" />
+                </Helper>
+            </RadzenFormField>
+        </RadzenRow>
+
+        <RadzenRow Style="margin-top:1rem;">
+            <RadzenColumn>
+                <label for="Rating" class="rz-form-label">Rating</label>
+                <RadzenRating id="Rating" Name="Rating" @bind-Value="@model.Rating" />
+                <RadzenDataAnnotationValidator Component="Rating" />
+            </RadzenColumn>
+        </RadzenRow>
+
+        <RadzenRow>
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Odeslat" />
+        </RadzenRow>
+
+    </RadzenStack>
+</RadzenTemplateForm>
+
+
+@code {
+    [Parameter]
+    public Guid ItemId { get; set; }
+    [Inject]
+    private ShopCatalogService catalogService { get; set; } = null!;
+    [Inject]
+    private NotificationService notificationService { get; set; } = null!;
+    [Inject]
+    private ILogger<AddReviewModalComponent> logger { get; set; } = null!;
+    [Inject]
+    private DialogService dialogService { get; set; } = null!;
+    [Inject]
+    private UserManager<ApplicationUser> userManager { get; set; } = null!;
+    [Inject]
+    private AuthenticationStateProvider authenticationStateProvider { get; set; } = null!;
+
+    private FormModel model = new FormModel();
+    private ApplicationUser? currentUser;
+
+    override protected async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var userPrincipal = authState.User;
+        currentUser = await userManager.GetUserAsync(userPrincipal);
+    }
+
+
+    private async Task OnSubmit(FormModel model)
+    {
+        try
+        {
+            var review = new Review()
+            {
+                UserId = currentUser?.Id ?? throw new Exception("Nejste přihlášený."),
+                Comment = model.ReviewText,
+                Rating = model.Rating,
+                ItemId = ItemId,
+            };
+
+            await catalogService.AddReviewAsync(review);
+            dialogService.Close(review);
+            notificationService.Notify(new NotificationMessage()
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Úspěch",
+                    Detail = "Recenze byla úspěšně přidána."
+                });
+
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Chyba při zpracování formuláře: {Message}", ex.Message);
+            notificationService.Notify(new NotificationMessage()
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = "Chyba",
+                    Detail = "Nastala chyba při zpracování formuláře."
+                });
+            return;
+        }
+    }
+
+
+    class FormModel
+    {
+        [Required]
+        public string ReviewText { get; set; } = null!;
+        [Required]
+        [Range(1, 5, ErrorMessage = "Hodnocení musí být mezi 1 a 5.")]
+        public int Rating { get; set; }
+    }
+}
