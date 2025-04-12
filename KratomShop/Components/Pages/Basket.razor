@@ -1,4 +1,5 @@
 ﻿@page "/basket"
+@rendermode InteractiveServer
 <PageTitle>Košík | Kratom E-shop</PageTitle>
 
 <RadzenSteps Change="@OnChange" @ref="steps" >
@@ -210,7 +211,7 @@
         order.TotalPrice = totalPriceIncVat;
         try
         {
-            await catalogService.AddNewOrder(order);
+            await catalogService.AddNewOrderAsync(order);
             disabledLastStep = false;
             await InvokeAsync(StateHasChanged);
             await Task.Delay(50);
