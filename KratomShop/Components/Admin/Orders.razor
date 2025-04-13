@@ -1,0 +1,47 @@
+﻿@page "/admin/orders"
+@using Microsoft.EntityFrameworkCore;
+@rendermode InteractiveServer
+<PageTitle>Orders</PageTitle>
+<h1>Orders</h1>
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.SimpleWithMenu" AllowSorting="true" PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+Data="@orders" ColumnWidth="300px" ExpandMode="DataGridExpandMode.Single">
+    <Template Context="order">
+        <RadzenDataGrid AllowFiltering="false" AllowPaging="false" AllowSorting="false" Data="@order.Lines">
+            <Columns>
+                <RadzenDataGridColumn Property="@nameof(OrderLine.Name)" Title="Název produktu" Width="200px" />               
+                <RadzenDataGridColumn Property="@nameof(OrderLine.Price)" FormatString="{0:F2} Kč" Title="Cena bez DPH" Width="200px" TextAlign="TextAlign.End" />
+                <RadzenDataGridColumn Property="@nameof(OrderLine.VatRate)" FormatString="{0:P1}" Title="DPH" Width="200px" />
+                <RadzenDataGridColumn Property="@nameof(OrderLine.Quantity)" Title="Množství" Width="200px" />
+                <RadzenDataGridColumn Property="@nameof(OrderLine.PriceIncVat)" FormatString="{0:F2} Kč" Title="Celková cena" Width="200px" TextAlign="TextAlign.End" />
+            </Columns>
+
+        </RadzenDataGrid>
+    </Template>
+    <Columns>
+        <RadzenDataGridColumn Property="@nameof(Order.Id)" Title="ID"Width="70px" FilterMode="FilterMode.Simple" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn Property="@nameof(Order.CreatedDate)" Title="Vytvořeno" Width="200px" />
+        <RadzenDataGridColumn Property="@nameof(Order.TotalPrice)" Title="Cena" Width="200px" />
+        <RadzenDataGridColumn Property="@nameof(Order.Status)" Title="Stav" Width="160px">
+            <Template Context="data">
+                <RadzenDropDown AllowClear="false" AllowFiltering="false" @bind-Value="@data.Status" Data="@(Enum.GetValues(typeof(OrderStatus)).Cast<Enum>())" Change="statusChanged" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    [Inject] ApplicationDbContext context { get; set; } = null!;
+    IQueryable<Order> orders = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        orders = context.Orders.Include(o => o.Address).Include(o => o.Lines);
+    }
+
+    private async Task statusChanged(object args)
+    {
+        await context.SaveChangesAsync();
+    }
+}

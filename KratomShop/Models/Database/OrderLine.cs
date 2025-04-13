@@ -23,5 +23,6 @@ namespace KratomShop.Models.Database
         public int Quantity { get; set; }
         public Order Order { get; set; } = null!;
         public int OrderId { get; set; }
+        public decimal PriceIncVat => Price * (1 + VatRate)* Quantity;
     }
 }
